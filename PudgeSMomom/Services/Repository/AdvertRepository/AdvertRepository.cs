@@ -1,4 +1,5 @@
-﻿using PudgeSMomom.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PudgeSMomom.Data;
 using PudgeSMomom.Models.AdvertModels;
 
 namespace PudgeSMomom.Services.Repository.AdvertRepository
@@ -18,27 +19,29 @@ namespace PudgeSMomom.Services.Repository.AdvertRepository
 
         public bool DeleteAdvert(int id)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(id);
+            return Save();
         }
 
-        public Task<Advert> GetAdvertById(int id)
+        public async Task<Advert> GetAdvertByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Adverts.Include(advert => advert.User).FirstOrDefaultAsync(advert => advert.Id == id);
         }
 
-        public Task<IEnumerable<Advert>> GetAdverts()
+        public async Task<IEnumerable<Advert>> GetAdverts()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Adverts.ToListAsync();
         }
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChanges() > 0;
         }
 
         public bool UpdateAdvert(Advert advert)
         {
-            return _dbContext.SaveChanges() > 0;
+            _dbContext.Update(advert);
+            return Save();
         }
     }
 }
