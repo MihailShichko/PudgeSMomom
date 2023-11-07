@@ -11,9 +11,9 @@ namespace PudgeSMomom.Models.AdvertModels
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public int UserId { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("User")]
+        public string? UserId { get; set; }
         public User? User { get; set; }
 
         

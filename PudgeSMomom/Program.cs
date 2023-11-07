@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PudgeSMomom.Data;
+using PudgeSMomom.Helpers;
+using PudgeSMomom.Services.Cloudinary;
+using PudgeSMomom.Services.Repository.AdvertRepository;
 
 namespace PudgeSMomom
 {
@@ -15,17 +18,24 @@ namespace PudgeSMomom
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            builder.Services.AddAuthentication()
+            /*builder.Services.AddAuthentication()
                 .AddSteam()
                 .AddOpenId("StackExchange", "StackExchange", options =>
                 {
                     options.Authority = new Uri("https://openid.stackexchange.com/");
                     options.CallbackPath = "/Home/Index";
-                });
+                });*/
+            builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("CloudinarySettings"));
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.AddTransient<IAdvertRepository, AdvertRepository>();
 
             var app = builder.Build();
-            
-            // Configure the HTTP request pipeline.
+            if (args.Length == 1 && args[0].ToLower() == "seeddata")
+            {
+                DataSeed.SeedData(app);
+            }
+
+            //Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");

@@ -1,0 +1,20 @@
+﻿@model PudgeSMomom.ViewModels.AdvertVMs.CreateAdvertVM
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" placeholder="Enter Title" required>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Club Description</label>
+        <input asp-for="Description" class="form-control" placeholder="Enter club description" required>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label">Image</label>
+        <input asp-for="Image" class="form-control" type="file" placeholder="Image" required>
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

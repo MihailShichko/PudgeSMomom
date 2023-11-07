@@ -8,7 +8,7 @@ namespace PudgeSMomom.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         public DbSet<Advert> Adverts { get; set; }
     }
 }

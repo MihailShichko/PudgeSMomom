@@ -1,0 +1,26 @@
+﻿@model IEnumerable<PudgeSMomom.Models.AdvertModels.Advert>
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var advert in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img class="card-img-top" src="@advert.Image" width="100%" height="225" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">@advert.Title</p>
+                            <p class="card-text">@advert.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a type="button" asp-controller="Advert" asp-action="Detail" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                                    <a type="button" asp-controller="Advert" asp-action="Edit" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
