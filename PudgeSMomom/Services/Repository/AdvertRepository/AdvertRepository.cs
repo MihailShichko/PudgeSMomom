@@ -38,9 +38,12 @@ namespace PudgeSMomom.Services.Repository.AdvertRepository
             return _dbContext.SaveChanges() > 0;
         }
 
-        public bool UpdateAdvert(Advert advert)
+        public bool UpdateAdvert(Advert advertNew)
         {
-            _dbContext.Update(advert);
+            var advertOld = _dbContext.Adverts.FirstOrDefault(advert => advert.Id == advertNew.Id);
+            advertOld.Title = advertNew.Title;
+            advertOld.Description = advertNew.Description;
+            advertOld.Image = advertNew.Image;
             return Save();
         }
     }

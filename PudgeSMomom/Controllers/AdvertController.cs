@@ -28,6 +28,61 @@ namespace PudgeSMomom.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var advert = await _advertRepository.GetAdvertByIdAsync(id);
+            if(advert == null) return View("Error");
+            var advertVM = new EditAdvertVM
+            {
+                Title = advert.Title,
+                Description = advert.Description,
+                URL = advert.Image
+            };
+
+            return View(advertVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditAdvertVM advertVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit advert");
+                return View("Edit", advertVM);
+            }
+
+            var advert = await _advertRepository.GetAdvertByIdAsync(id);
+            if (advert != null)
+            {
+                try
+                {
+                    await _photoService.DeletePhotoAsync(advert.Image);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Can't delete photo");
+                    return View(advertVM);
+                }
+
+                var result = await _photoService.AddPhotoAsycn(advertVM.Image);
+                var newAdvert = new Advert
+                {
+                    Id = id,
+                    Title = advertVM.Title,
+                    Description = advertVM.Description,
+                    Image = result.Uri.ToString()
+                };
+
+                _advertRepository.UpdateAdvert(newAdvert);// что-то с контекстом
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(advertVM);
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
