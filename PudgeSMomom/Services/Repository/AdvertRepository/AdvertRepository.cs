@@ -19,7 +19,8 @@ namespace PudgeSMomom.Services.Repository.AdvertRepository
 
         public bool DeleteAdvert(int id)
         {
-            _dbContext.Remove(id);
+            var advertToDelete = _dbContext.Adverts.First(advert => advert.Id == id);
+            _dbContext.Remove(advertToDelete);
             return Save();
         }
 

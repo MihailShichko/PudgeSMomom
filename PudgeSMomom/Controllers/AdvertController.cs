@@ -73,7 +73,7 @@ namespace PudgeSMomom.Controllers
                     Image = result.Uri.ToString()
                 };
 
-                _advertRepository.UpdateAdvert(newAdvert);// что-то с контекстом
+                _advertRepository.UpdateAdvert(newAdvert);
                 return RedirectToAction("Index");
             }
             else
@@ -109,6 +109,12 @@ namespace PudgeSMomom.Controllers
             }
             
             return View(advertVM);
+        }
+
+        public async Task<IActionResult> Delite(int id)
+        {
+            _advertRepository.DeleteAdvert(id);
+            return RedirectToAction("Index");
         }
 
     }
