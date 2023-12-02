@@ -7,6 +7,10 @@ using PudgeSMomom.Models;
 using PudgeSMomom.ViewModels;
 using System.Security.Claims;
 using PudgeSMomom.ViewModels.AccountVMs;
+using System.Text;
+using PudgeSMomom.Services.Steam;
+using Microsoft.Extensions.Options;
+using PudgeSMomom.Helpers;
 
 namespace PudgeSMomom.Controllers
 {
@@ -15,22 +19,32 @@ namespace PudgeSMomom.Controllers
         private ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ISteamService _steamService;
 
-        public AccountController(ApplicationDbContext dbContext, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(ApplicationDbContext dbContext, UserManager<User> userManager, SignInManager<User> signInManager, ISteamService steamService)
         {
-            this._dbContext = dbContext;
+            _steamService = steamService;
+            _dbContext = dbContext;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            var AccountVM = await _steamService.GetPlayerData("eyJTdWJqZWN0IjoiY2UzZTA3ZDgtNGZiMy00ZTJiLWFmY2QtZWU4M2ZhZTUxYzIyIiwiU3RlYW1JZCI6IjMwMzg5Njc3MyIsIm5iZiI6MTcwMTI5MDMyMywiZXhwIjoxNzMyODI2MzIzLCJpYXQiOjE3MDEyOTAzMjMsImlzcyI6Imh0dHBzOi8vYXBpLnN0cmF0ei5jb20ifQ", Convert.ToInt64(user.steamId));
+            return View(AccountVM);
         }
 
         public IActionResult Login()
         {
             return View(new LoginVM());
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -42,7 +56,7 @@ namespace PudgeSMomom.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(loginVM.Email);    
-            if(user == null)
+            if(user != null)
             {
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
                 if(passwordCheck)
@@ -50,10 +64,11 @@ namespace PudgeSMomom.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Advert");
+                        return RedirectToAction("Index", "Home");
                     }
                     
                 }
+
                 TempData["Error"] = "Wrong password";   
                 return View(loginVM);   
             }
@@ -87,14 +102,16 @@ namespace PudgeSMomom.Controllers
                 steamId = registerVM.SteamId
             };
 
-            var newUserResponce = await _userManager.CreateAsync(newUser, registerVM.Password);//problemo
+            var newUserResponce = await _userManager.CreateAsync(newUser, registerVM.Password);
             if (newUserResponce.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
             }
             else
             {
-                TempData["Error"] = "problem with creating user";
+                var builder = new StringBuilder();
+                newUserResponce.Errors.ToList().ForEach(error => { builder.AppendLine(error.Description); });
+                TempData["Error"] = builder.ToString();
                 return View(registerVM);
             }
 

@@ -6,10 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using PudgeSMomom.Data;
 using PudgeSMomom.Helpers;
-using PudgeSMomom.Migrations;
+using PudgeSMomom.Hubs;
+//using PudgeSMomom.Migrations;
 using PudgeSMomom.Models;
 using PudgeSMomom.Services.Cloudinary;
 using PudgeSMomom.Services.Repository.AdvertRepository;
+using PudgeSMomom.Services.Repository.UserRepository;
+using PudgeSMomom.Services.Steam;
 
 namespace PudgeSMomom
 {
@@ -25,15 +28,24 @@ namespace PudgeSMomom
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddSignalR();
             builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("CloudinarySettings"));
+            builder.Services.Configure<SteamConfig>(builder.Configuration.GetSection("SteamAPISettings"));
             builder.Services.AddScoped<IAdvertRepository, AdvertRepository>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.AddScoped<ISteamService, SteamService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddMemoryCache();
             builder.Services.AddSession();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
             /*builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -61,6 +73,7 @@ namespace PudgeSMomom
                 app.UseHsts();
             }
 
+            app.MapHub<ChatHub>("/Chat/ChatRoom");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -72,7 +85,7 @@ namespace PudgeSMomom
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
+            
             app.Run();
         }
     }

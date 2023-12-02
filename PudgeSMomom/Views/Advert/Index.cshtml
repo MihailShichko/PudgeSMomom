@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<PudgeSMomom.Models.AdvertModels.Advert>
 
 <div class="album py-5 bg-body-tertiary">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span><b>Sorry!</b> - @TempData["Error"]</span>
+        </div>
+    }
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var advert in Model)
@@ -15,7 +21,7 @@
                                 <div class="btn-group">
                                     <a type="button" asp-controller="Advert" asp-action="Detail" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">View</a>
                                     <a type="button" asp-controller="Advert" asp-action="Edit" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                    <a type="button" asp-controller="Advert" asp-action="Delete" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">Delite</a>
+                                    <a type="button" asp-controller="Advert" asp-action="Delete" asp-route-id="@advert.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -23,5 +29,8 @@
                 </div>
             }
         </div>
+    </div>
+    <div class="container-fluid">
+        <a type="button" asp-controller="Advert" asp-action="Create" class="CreateButton btn btn-sm btn-outline-secondary">Create</a>
     </div>
 </div>

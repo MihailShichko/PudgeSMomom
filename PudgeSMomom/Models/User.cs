@@ -6,6 +6,5 @@ namespace PudgeSMomom.Models
     public class User:IdentityUser
     {
         public string? steamId { get; set; }
-
     }
 }

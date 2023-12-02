@@ -15,8 +15,8 @@ namespace PudgeSMomom.ViewModels.AccountVMs
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "SteamId is required")]
-        [DataType(DataType.Text)]
-        public string SteamId { get; set; }
+        //[Required(ErrorMessage = "SteamId is required")]
+        //[DataType(DataType.Text)]
+        //public string SteamId { get; set; }
     }
 }

@@ -82,7 +82,7 @@ namespace PudgeSMomom.Data
                         EmailConfirmed = true,
                         steamId = "76561198264162501"
                     };
-                    await userManager.CreateAsync(newAdminUser, "2244");
+                    await userManager.CreateAsync(newAdminUser, "AdminTest123");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
 
@@ -97,7 +97,7 @@ namespace PudgeSMomom.Data
                         EmailConfirmed = true,
                         steamId = "000000000"
                     };
-                    await userManager.CreateAsync(newAppUser, "1111");
+                    await userManager.CreateAsync(newAppUser, "UserTest123");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
                 }
             }

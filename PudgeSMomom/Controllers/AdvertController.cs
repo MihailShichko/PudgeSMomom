@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PudgeSMomom.Models.AdvertModels;
 using PudgeSMomom.Services.Cloudinary;
 using PudgeSMomom.Services.Repository.AdvertRepository;
+using PudgeSMomom.Services.Repository.UserRepository;
+using PudgeSMomom.ViewModels.AccountVMs;
 using PudgeSMomom.ViewModels.AdvertVMs;
 
 namespace PudgeSMomom.Controllers
@@ -10,14 +13,21 @@ namespace PudgeSMomom.Controllers
     {
         IAdvertRepository _advertRepository;
         IPhotoService _photoService;
-        public AdvertController(IAdvertRepository advertRepository, IPhotoService photoService)
+        IUserRepository _userRepository;
+        public AdvertController(IAdvertRepository advertRepository, IPhotoService photoService, IUserRepository userRepository)
         {
             this._advertRepository = advertRepository;
             this._photoService = photoService;
+            this._userRepository = userRepository;
         }
 
         public async Task<IActionResult> Index()
         {
+            //if (TempData["Error"] != null)
+            //{
+            //    ViewData["ErrorMessage"] = TempData["Error"];
+
+            //}
             return View(await _advertRepository.GetAdverts());
         }
         
@@ -31,7 +41,15 @@ namespace PudgeSMomom.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var advert = await _advertRepository.GetAdvertByIdAsync(id);
-            if(advert == null) return View("Error");
+            var user = await _userRepository.GetUserByNameAsync(User.Identity.Name.ToString());
+
+            if (advert.User.Id != user.Id)
+            {
+                TempData["Error"] = "You can't edit someone else's advert";
+                return RedirectToAction("Index");
+            }
+
+            if (advert == null) return View("Error");
             var advertVM = new EditAdvertVM
             {
                 Title = advert.Title,
@@ -52,6 +70,7 @@ namespace PudgeSMomom.Controllers
             }
 
             var advert = await _advertRepository.GetAdvertByIdAsync(id);
+
             if (advert != null)
             {
                 try
@@ -97,7 +116,8 @@ namespace PudgeSMomom.Controllers
                 {
                     Title = advertVM.Title,
                     Description = advertVM.Description,
-                    Image = result.Uri.ToString()
+                    Image = result.Uri.ToString(),
+                    User = await _userRepository.GetUserByNameAsync(User.Identity.Name.ToString())
                 };
 
                 _advertRepository.AddAdvert(advert);
@@ -111,8 +131,18 @@ namespace PudgeSMomom.Controllers
             return View(advertVM);
         }
 
-        public async Task<IActionResult> Delite(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var advert = await _advertRepository.GetAdvertByIdAsync(id);
+
+            var user = await _userRepository.GetUserByNameAsync(User.Identity.Name.ToString());
+
+            if (advert.User.Id != user.Id)
+            {
+                TempData["Error"] = "You can't delete someone else's advert";
+                return RedirectToAction("Index");
+            }
+
             _advertRepository.DeleteAdvert(id);
             return RedirectToAction("Index");
         }
