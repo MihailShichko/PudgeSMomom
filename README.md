@@ -26,3 +26,4 @@ Documentation Here
 - [Delevoper Name](GitHub Profile Link)
 
 ## License
+Project is destributed under the GNU license. 
