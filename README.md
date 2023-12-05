@@ -1,5 +1,5 @@
 <p align="center">
-      <img src="[Project Logo Url](https://ibb.co/RjYyc0m)" width="726">
+      <img src="https://i.ibb.co/qJ75psf/mudroe-tainstvennoe-derevo-mem-25.jpg" width="726">
 </p>
 
 <p align="center">
