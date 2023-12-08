@@ -1,0 +1,63 @@
+<mxfile host="app.diagrams.net" modified="2023-11-09T23:49:10.969Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="kcyUrunut-Nt-5glu-Kn" version="22.1.0" type="device">
+  <diagram name="Страница — 1" id="FocGhXCTjcWod-hpUMGC">
+    <mxGraphModel dx="724" dy="366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="" style="ellipse;fillColor=strokeColor;" parent="1" vertex="1">
+          <mxGeometry x="179.5" y="87" width="14" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Заполнение формы" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="134" y="210" width="105" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="jAp2NL32pvn1GgZ7nBaF-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Отправка формы на сервер" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="106.5" y="290" width="160" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="jAp2NL32pvn1GgZ7nBaF-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="загрузка изображения в облако" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="366.75" y="201.5" width="126.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="" style="ellipse;shape=endState;fillColor=strokeColor;" parent="1" vertex="1">
+          <mxGeometry x="633" y="309" width="14" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="" style="curved=1;startArrow=none;;exitX=0.520759037562779;exitY=0.9785714830671038;entryX=0.4980059669131324;entryY=0.012121258359966856;" parent="1" source="2" target="3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="9" value="" style="curved=1;startArrow=none;;exitX=0.5;exitY=1;entryX=0.4784600394112723;entryY=0.0071430206298828125;exitDx=0;exitDy=0;" parent="1" source="jAp2NL32pvn1GgZ7nBaF-12" target="7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="323.70557808007425" y="53" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="jAp2NL32pvn1GgZ7nBaF-11" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-11" value="Создание объекта объявления  " style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="290" width="160" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-12" value="добавление объекта в базу данных" style="rounded=1;absoluteArcSize=1;arcSize=14;whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="210" width="160" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-19" value="ошибка&lt;br&gt;загрузки" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="290" y="180" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jAp2NL32pvn1GgZ7nBaF-21" value="Успешная&lt;br&gt;загрузка" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="500" y="171.5" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
