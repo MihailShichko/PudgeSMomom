@@ -1,8 +1,8 @@
 ﻿"use strict"
 
-let connection = new signalR.HubConnectionBuilder().withUrl("/Chat/ChatRoom").build();
+let connection = new signalR.HubConnectionBuilder().withUrl("/ChatRoom").build();
 
-document.getElementById("sendButton").disabled = true;
+document.getElementById("sendButton").disabled = false;
 document.getElementById("sendButton").addEventListener("click", function (event) {
     let user = document.getElementById("userInput").value
     let message = document.getElementById("messageInput").value;
@@ -11,7 +11,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     }
 });
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("Receive", function (user, message) {
 
     let li = document.createElement("li");
   

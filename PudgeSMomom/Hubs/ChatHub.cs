@@ -1,21 +1,15 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using PudgeSMomom.Models;
 
 namespace PudgeSMomom.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SandMessage(string user, string message)
+        public async Task SendMessage(string message, Dialogue dialogue)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
-            //await Clients.User("asd").SendAsync(user, message);
-        }
-        public override Task OnConnectedAsync()
-        {
-            // Получение Connection ID при подключении клиента
-            var connectionId = Context.ConnectionId;
-            // Дополнительная логика, если необходимо
-
-            return base.OnConnectedAsync();
+            //await Clients.All.SendAsync("Receive", message);
+            dialogue.Messages.Add(new UserMessage { Data = message });
+            await Clients.User(dialogue.RecieverId).SendAsync("Receive", message);
         }
     }
 }

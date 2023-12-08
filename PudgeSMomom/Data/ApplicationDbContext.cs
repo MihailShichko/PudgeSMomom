@@ -10,5 +10,7 @@ namespace PudgeSMomom.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Advert> Adverts { get; set; }
+
+        public DbSet<Dialogue> Dialogues { get; set; }
     }
 }

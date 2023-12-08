@@ -11,6 +11,7 @@ using PudgeSMomom.Hubs;
 using PudgeSMomom.Models;
 using PudgeSMomom.Services.Cloudinary;
 using PudgeSMomom.Services.Repository.AdvertRepository;
+using PudgeSMomom.Services.Repository.DialogueRepository;
 using PudgeSMomom.Services.Repository.UserRepository;
 using PudgeSMomom.Services.Steam;
 
@@ -33,6 +34,7 @@ namespace PudgeSMomom
             builder.Services.Configure<SteamConfig>(builder.Configuration.GetSection("SteamAPISettings"));
             builder.Services.AddScoped<IAdvertRepository, AdvertRepository>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.AddScoped<IDialogueRepository, DialogueRepository>();
             builder.Services.AddScoped<ISteamService, SteamService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddIdentity<User, IdentityRole>()
@@ -73,7 +75,7 @@ namespace PudgeSMomom
                 app.UseHsts();
             }
 
-            app.MapHub<ChatHub>("/Chat/ChatRoom");
+            app.MapHub<ChatHub>("ChatRoom");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

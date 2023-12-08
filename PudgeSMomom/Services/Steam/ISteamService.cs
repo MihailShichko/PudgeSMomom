@@ -1,10 +1,11 @@
-﻿using PudgeSMomom.ViewModels.AccountVMs;
+﻿using PudgeSMomom.Models;
+using PudgeSMomom.ViewModels.AccountVMs;
 
 namespace PudgeSMomom.Services.Steam
 {
     public interface ISteamService
     {
-        public Task<AccountVM> GetPlayerData(string apiKey, long steamId);
+        public Task<ProfileData> GetPlayerData(string apiKey, long steamId);
         
     }
 }

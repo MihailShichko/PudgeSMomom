@@ -11,6 +11,7 @@ using System.Text;
 using PudgeSMomom.Services.Steam;
 using Microsoft.Extensions.Options;
 using PudgeSMomom.Helpers;
+using Microsoft.AspNet.SignalR;
 
 namespace PudgeSMomom.Controllers
 {
@@ -29,11 +30,17 @@ namespace PudgeSMomom.Controllers
             _signInManager = signInManager;
         }
 
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var AccountVM = await _steamService.GetPlayerData("eyJTdWJqZWN0IjoiY2UzZTA3ZDgtNGZiMy00ZTJiLWFmY2QtZWU4M2ZhZTUxYzIyIiwiU3RlYW1JZCI6IjMwMzg5Njc3MyIsIm5iZiI6MTcwMTI5MDMyMywiZXhwIjoxNzMyODI2MzIzLCJpYXQiOjE3MDEyOTAzMjMsImlzcyI6Imh0dHBzOi8vYXBpLnN0cmF0ei5jb20ifQ", Convert.ToInt64(user.steamId));
-            return View(AccountVM);
+            //var user = await _userManager.GetUserAsync(User)
+            var user = await _userManager.FindByIdAsync(id);
+            var profileData = await _steamService.GetPlayerData("9CF743B10F3FE10AC9D37133571407DA", Convert.ToInt64(user.steamId));
+            var profile = new UserAccount
+            {
+                ProfileData = profileData,
+                User = user
+            };
+            return View(profile);
         }
 
         public IActionResult Login()
@@ -64,7 +71,7 @@ namespace PudgeSMomom.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Profile", "Account", new {id = user.Id});
                     }
                     
                 }
@@ -115,7 +122,7 @@ namespace PudgeSMomom.Controllers
                 return View(registerVM);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Profile", "Account", new { id = newUser.Id });
         }
 
         [HttpPost]
@@ -124,6 +131,28 @@ namespace PudgeSMomom.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
 
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Users()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);     
+            return View(_userManager.Users.Where(user => user.Id != currentUser.Id));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await _userManager.DeleteAsync(await _userManager.FindByIdAsync(id));
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Can not delete user";
+            }
+
+            return RedirectToAction("Users");
         }
     }
 }

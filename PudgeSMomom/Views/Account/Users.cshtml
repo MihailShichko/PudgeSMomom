@@ -1,0 +1,29 @@
+﻿@model IEnumerable<User>
+
+
+<div class="album py-5 bg-body-tertiary">
+    @if (TempData["Error"] != null)
+    {
+        <div class="col-md-12 alert alert-danger">
+            <span><b>Sorry!</b> - @TempData["Error"]</span>
+        </div>
+    }
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @if (Model.ToList().Count == 0)
+            {
+                <h3>NOBODY HERE</h3>
+            }
+            @foreach (var user in Model)
+            {
+                <div class="col">
+                    @user.UserName
+                    <div class="btn-group">
+                        <a type="button" asp-controller="Account" asp-action="Profile" asp-route-id="@user.Id" class="btn btn-sm btn-outline-secondary">Profile</a>
+                        <a type="button" asp-controller="Account" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

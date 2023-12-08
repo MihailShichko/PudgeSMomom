@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PudgeSMomom.Models;
 using PudgeSMomom.Models.AdvertModels;
 using PudgeSMomom.Services.Cloudinary;
 using PudgeSMomom.Services.Repository.AdvertRepository;
@@ -9,16 +12,19 @@ using PudgeSMomom.ViewModels.AdvertVMs;
 
 namespace PudgeSMomom.Controllers
 {
+    [Authorize]
     public class AdvertController : Controller
     {
         IAdvertRepository _advertRepository;
         IPhotoService _photoService;
         IUserRepository _userRepository;
-        public AdvertController(IAdvertRepository advertRepository, IPhotoService photoService, IUserRepository userRepository)
+        private readonly UserManager<User> _userManager;
+        public AdvertController(IAdvertRepository advertRepository, IPhotoService photoService, IUserRepository userRepository, UserManager<User> userManager)
         {
             this._advertRepository = advertRepository;
             this._photoService = photoService;
             this._userRepository = userRepository;
+            this._userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -34,7 +40,14 @@ namespace PudgeSMomom.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var advert = await _advertRepository.GetAdvertByIdAsync(id);
-            return View(advert);
+            var user = await _userManager.GetUserAsync(User);
+            var detailVm = new DetailVM
+            {
+                Advert = advert,
+                SourceId = user.Id
+            };
+
+            return View(detailVm);
         }
 
         [HttpGet]
@@ -117,7 +130,7 @@ namespace PudgeSMomom.Controllers
                     Title = advertVM.Title,
                     Description = advertVM.Description,
                     Image = result.Uri.ToString(),
-                    User = await _userRepository.GetUserByNameAsync(User.Identity.Name.ToString())
+                    User = await _userManager.GetUserAsync(User)
                 };
 
                 _advertRepository.AddAdvert(advert);
@@ -137,7 +150,7 @@ namespace PudgeSMomom.Controllers
 
             var user = await _userRepository.GetUserByNameAsync(User.Identity.Name.ToString());
 
-            if (advert.User.Id != user.Id)
+            if (advert.User.Id != user.Id && await _userManager.IsInRoleAsync(user, "User"))
             {
                 TempData["Error"] = "You can't delete someone else's advert";
                 return RedirectToAction("Index");

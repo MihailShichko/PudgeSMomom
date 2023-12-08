@@ -34,7 +34,7 @@ namespace PudgeSMomom.Services.Repository.AdvertRepository
             return await _dbContext.Adverts.ToListAsync();
         }
 
-        public bool Save()
+        public bool Save()     
         {
             return _dbContext.SaveChanges() > 0;
         }
