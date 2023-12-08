@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Dialogue>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        @if (Model.Count() > 0)
+        {
+            @foreach (var dialogue in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text">@dialogue.Id</p>
+                            <div class="btn-group">
+                                <a type="button" asp-controller="Chat" asp-action="ChatRoom" asp-route-dialogue="@Model" class="btn btn-sm btn-outline-secondary">See</a>
+                                <a type="button" asp-controller="Chat" asp-action="DeleteDialogue" asp-route-id="@dialogue.Id" class="btn btn-sm btn-outline-secondary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

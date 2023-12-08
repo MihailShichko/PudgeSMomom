@@ -6,7 +6,7 @@ namespace PudgeSMomom.Models
     {
         [Key]
         public int Id { get; set; }
-
-        public string Data { get; set; }
+        public string? NickName { get; set; }
+        public string? Data { get; set; }
     }
 }
