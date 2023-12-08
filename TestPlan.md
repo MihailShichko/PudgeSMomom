@@ -15,7 +15,7 @@
 
 ## Введение
 
-Данный документ описывает план тестирования приложения ["EnjoyPlayer"](https://github.com/glestorn/EnjoyPlayer). Документ предназначен для людей, выполняющих тестирование данного проекта. Цель тестирования - проверка соответствия реального поведения программы проекта и ее ожидаемого поведения, которое описано в [требованиях](https://github.com/glestorn/EnjoyPlayer/blob/master/Documents/Requirements/RussianRequirementsDocument.md).
+Данный документ описывает план тестирования приложения ["PudgeSMomom"](https://github.com/MihailShichko/PudgeSMomom/tree/main). Документ предназначен для людей, выполняющих тестирование данного проекта. Цель тестирования - проверка соответствия реального поведения программы проекта и ее ожидаемого поведения, которое описано в [требованиях](https://github.com/glestorn/EnjoyPlayer/blob/master/Documents/Requirements/RussianRequirementsDocument.md).
 
 <a name="items"/>
 
