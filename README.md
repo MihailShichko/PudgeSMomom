@@ -10,7 +10,7 @@ PudgeSMomom представляет собой web-приложение для 
 
 1. Программные интерфейсы
 
-Разработка планируется на ASP.NET MVC с применением различных API(Pusher API, Steam API), и технологий(Identity Framework, Entity Framework и SignalR).
+Разработка планируется на ASP.NET MVC с применением различных API(Cloudinary, Steam API), и технологий(Identity Framework, Entity Framework и SignalR).
 
 2. Интерфейс пользователя
 
